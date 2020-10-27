@@ -1,0 +1,13 @@
+body {
+    -webkit-app-region: drag;
+}
+
+
+/* body div * {
+    -webkit-app-region: no-drag;
+} */
+
+button,
+input {
+    -webkit-app-region: no-drag;
+}

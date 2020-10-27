@@ -1,0 +1,14 @@
+{
+    "name": "floating-nightscout",
+    "version": "0.0.1",
+    "description": "Floating Nightscout for Windows",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "devDependencies": {
+        "electron": "10.1.2"
+    },
+    "author": "Mark Oude Elberink",
+    "license": "ISC"
+}
