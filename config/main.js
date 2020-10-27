@@ -6,6 +6,11 @@ const closeWindow = () => electron.remote.getCurrentWindow().close();
 
 const store = new Store({ configName: "config" });
 
+const init = () => {
+    load();
+    document.getElementById("version").innerText = electron.remote.app.getVersion();
+}
+
 const load = () => {
     document.getElementById("nsurl").value = store.get("nightscoutURL")
     document.getElementById("refreshinterval").value = store.get("refreshInterval")
@@ -17,4 +22,4 @@ const save = () => {
     ipcRenderer.send("reloadMain");
 }
 
-load();
+init();

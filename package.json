@@ -7,8 +7,19 @@
         "start": "electron ."
     },
     "devDependencies": {
-        "electron": "10.1.2"
+        "electron": "10.1.2",
+        "electron-builder": "^22.9.1"
     },
     "author": "Mark Oude Elberink",
-    "license": "ISC"
+    "license": "ISC",
+    "build": {
+        "appId": "org.toastbrot.floatingnightscout",
+        "productName": "Floating Nightscout",
+        "mac": {
+            "target": "dmg"
+        },
+        "win": {
+            "target": "nsis"
+        }
+    }
 }

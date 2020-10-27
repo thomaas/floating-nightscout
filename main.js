@@ -13,7 +13,9 @@ const createWindow = () => {
         width: 200,
         height: 140,
         opacity: 0.9,
-        alwaysOnTop: true
+        alwaysOnTop: true,
+        icon: "build/icon.png",
+        title: "Floating Nightscout"
     });
     mainWindow.loadFile("app/index.html");
 };
