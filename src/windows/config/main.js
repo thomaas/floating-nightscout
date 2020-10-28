@@ -2,10 +2,8 @@ const electron = require("electron");
 const { ipcRenderer } = electron;
 const store = require("../../store");
 const halfmoon = require("../../halfmoon/halfmoon-module");
-const { setProgressbar } = require("../../misc");
-const closeWindow = () => electron.remote.getCurrentWindow().close();
+const { setProgressbar, closeWindow } = require("../../misc");
 
-//const store = new Store({ configName: "config" });
 const progressbar = document.getElementById("nsprogress")
 
 const init = () => {
@@ -29,6 +27,7 @@ const testUrl = () => {
         console.log(success);
         if (success.status == 200) {
             document.getElementById("nsurl").classList.remove("is-invalid");
+            document.getElementById("nssavebutton").removeAttribute("disabled");
             setProgressbar(progressbar, 100, false, "bg-success")
         } else {
             throw "Not Valid";
@@ -36,7 +35,8 @@ const testUrl = () => {
     }).catch((err) => {
         console.log(err)
         document.getElementById("nsurl").classList.add("is-invalid");
-        setProgressbar(progressbar, 100, false, "bg-danger")
+        document.getElementById("nssavebutton").setAttribute("disabled", "disabled");
+        setProgressbar(progressbar, 100, false, "bg-danger");
     })
 }
 

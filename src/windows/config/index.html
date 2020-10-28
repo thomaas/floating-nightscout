@@ -17,13 +17,14 @@
                     <button class="btn btn-success" type="button" onclick="testUrl()">Test</button>
                 </div>
                 <div class="input-group-append">
-                    <button class="btn btn-danger" type="button" onclick="save()">Aktualisieren</button>
+                    <button class="btn btn-danger" id="nssavebutton" disabled type="button" onclick="save()">Speichern</button>
                 </div>
             </div>
         </div>
         <div class="progress">
             <div id="nsprogress" class="progress-bar progress-bar-animated" role="progressbar"></div>
         </div>
+        <!-- <p>&uarr; Grün: Test erfolgreich, kann gespeichert werden. Rot: Fehlgeschlagen</p> -->
         <br/>
         <strong>Aktualisierungsrate</strong>
         <div class="form-group">
@@ -33,7 +34,7 @@
                     <span class="input-group-text">Sekunden</span>
                 </div>
                 <div class="input-group-append">
-                    <button class="btn btn-danger" type="button" onclick="save()">Aktualisieren</button>
+                    <button class="btn btn-danger" type="button" onclick="save()">Speichern</button>
                 </div>
             </div>
         </div>

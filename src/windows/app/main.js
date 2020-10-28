@@ -1,24 +1,30 @@
 const electron = require("electron");
 const remote = electron.remote;
 const { Menu, MenuItem } = remote;
-const { ipcRenderer } = electron;
 const store = require("../../store");
 
-//const { closeWindow } = require("../misc")
-
-const { minutes_ago, closeWindow, openConfig } = require("../../misc");
+const {
+    minutes_ago,
+    closeWindow,
+    openConfig,
+    fetchNightscout,
+} = require("../../misc");
 const { displayData, displayError } = require("./renderer");
 
 const readData = async() => {
     if (navigator.onLine) {
-        const data = await fetchData();
+        const data = await fetchNightscout(store.get("nightscoutURL"));
         if (data.state == 200) {
-            displayData(
-                data.json.bgs[0].sgv,
-                data.json.bgs[0].bgdelta,
-                data.json.bgs[0].direction,
-                minutes_ago(data.json.bgs[0].datetime)
-            );
+            if (data.json.bgs.length != 1) {
+                displayError("Der Nightscout Server verwendet mehrere Blutzucker");
+            } else {
+                displayData(
+                    data.json.bgs[0].sgv,
+                    data.json.bgs[0].bgdelta,
+                    data.json.bgs[0].direction,
+                    minutes_ago(data.json.bgs[0].datetime)
+                );
+            }
         } else {
             displayError(
                 "Nightscout Seite reagiert nicht oder URL ist falsch (" +
@@ -27,29 +33,10 @@ const readData = async() => {
             );
         }
     } else {
-        //document.getElementById("bg").innerHTML = "Offline";
         displayError("Offline");
     }
 
     console.log("D");
-};
-
-// {{status:[{now:Number}],bgs:[{sgv:String,direction:String,datetime:Number,iob:String,battery:String}]}}
-
-/**
- * @returns {{state:Number,json:{status:[{now:Number}],bgs:[{sgv:String,direction:String,datetime:Number,iob:String,battery:String,bgdelta:Number}]}}}
- */
-const fetchData = async() => {
-    try {
-        return await fetch(store.get("nightscoutURL") + "pebble", {}).then(
-            async(res) => ({
-                state: res.status,
-                json: await res.json(),
-            })
-        );
-    } catch (e) {
-        return { state: 0, json: null };
-    }
 };
 
 const init = () => {
@@ -63,11 +50,13 @@ const init = () => {
         readData,
         (store.get("refreshInterval") ? store.get("refreshInterval") : 10) * 1000
     );
+    window.addEventListener("offline", () => readData());
+    window.addEventListener("online", () => readData());
 };
 
 init();
 
-// Right-click Menu
+// Registriere Rechtsklick Menü
 const menu = new Menu();
 menu.append(new MenuItem({ label: "Schliessen", click: closeWindow }));
 menu.append(new MenuItem({ label: "Einstellungen", click: openConfig }));

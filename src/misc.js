@@ -1,3 +1,7 @@
+/**
+ * Gibt die Anzahl der Minuten seit dem Zeitstempel
+ * @param {Number} dt Zeitstempel in millisekunden
+ */
 const minutes_ago = (dt) => {
     let dt2 = new Date(dt);
     var diff = (dt2.getTime() - new Date().getTime()) / 1000;
@@ -5,12 +9,18 @@ const minutes_ago = (dt) => {
     return Math.abs(Math.round(diff));
 };
 
+/**
+ * Schließt das akutelle Fenster
+ */
 const closeWindow = () => {
     require("electron").remote.getCurrentWindow().close();
 };
 
+/**
+ * Öffnet das Einstellungsmenü (Sendet Befehl an main)
+ */
 const openConfig = () => {
-    ipcRenderer.send("configwindow");
+    require("electron").ipcRenderer.send("configwindow");
 };
 
 /**
@@ -34,4 +44,22 @@ const setProgressbar = (el, percent, animated, colorClass) => {
     }
 }
 
-module.exports = { minutes_ago, closeWindow, openConfig, setProgressbar };
+/**
+ * Lädt Daten von Nightscout
+ * @param {String} url URL from Nightscout ending with /
+ * @returns {{state:Number,json:{status:[{now:Number}],bgs:[{sgv:String,direction:String,datetime:Number,iob:String,battery:String,bgdelta:Number}]}}}
+ */
+const fetchNightscout = async(url) => {
+    try {
+        return await fetch(url + "pebble", {}).then(
+            async(res) => ({
+                state: res.status,
+                json: await res.json(),
+            })
+        );
+    } catch (e) {
+        return { state: 0, json: null };
+    }
+};
+
+module.exports = { minutes_ago, closeWindow, openConfig, setProgressbar, fetchNightscout };
