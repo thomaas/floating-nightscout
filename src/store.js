@@ -4,7 +4,7 @@ const schema = {
     nightscoutURL: {
         type: "string",
         form: "uri",
-        default: null,
+        default: "",
     },
     refreshInterval: {
         type: "number",

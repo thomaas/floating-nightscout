@@ -7,73 +7,31 @@ const store = require("../../store");
 //const { closeWindow } = require("../misc")
 
 const { minutes_ago, closeWindow, openConfig } = require("../../misc");
-
-const DIR_FLAT = "Flat";
-const DIR_UP = "SingleUp";
-const DIR_UP_2 = "DoubleUp";
-const DIR_UP_45 = "FortyFiveUp";
-const DIR_DOWN = "SingleDown";
-const DIR_DOWN_2 = "DoubleDown";
-const DIR_DOWN_45 = "FortyFiveDown";
+const { displayData, displayError } = require("./renderer");
 
 const readData = async() => {
     if (navigator.onLine) {
         const data = await fetchData();
         if (data.state == 200) {
-            document.getElementById("bg").innerHTML = data.json.bgs[0].sgv;
             displayData(
                 data.json.bgs[0].sgv,
                 data.json.bgs[0].bgdelta,
                 data.json.bgs[0].direction,
-                minutes_ago(new Date(data.json.bgs[0].datetime))
+                minutes_ago(data.json.bgs[0].datetime)
             );
         } else {
-            document.getElementById("bg").innerHTML = "Komischer Fehler";
+            displayError(
+                "Nightscout Seite reagiert nicht oder URL ist falsch (" +
+                data.state +
+                ")"
+            );
         }
     } else {
-        document.getElementById("bg").innerHTML = "Offline";
+        //document.getElementById("bg").innerHTML = "Offline";
+        displayError("Offline");
     }
-    console.log("D");
-};
 
-/**
- *
- * @param {Number} bg
- * @param {String} dir
- * @param {Number} timeago
- * @param {Number} bgdelta
- */
-const displayData = (bg, bgdelta, dir, timeago) => {
-    document.getElementById("bg").innerHTML = bg;
-    document.getElementById("delta").innerHTML =
-        bgdelta >= 0 ? "+" + bgdelta : bgdelta;
-    const dirEl = document.getElementById("dir");
-    switch (dir) {
-        case DIR_UP:
-            dirEl.innerHTML = "&#8593;";
-            break;
-        case DIR_UP_2:
-            dirEl.innerHTML = "&#8593;&#8593;";
-            break;
-        case DIR_UP_45:
-            dirEl.innerHTML = "&#8599;";
-            break;
-        case DIR_DOWN:
-            dirEl.innerHTML = "&#8595;";
-            break;
-        case DIR_DOWN_2:
-            dirEl.innerHTML = "&#8595;&#8595;";
-            break;
-        case DIR_DOWN_45:
-            dirEl.innerHTML = "&#8600;";
-            break;
-        case DIR_FLAT:
-            dirEl.innerHTML = "&#8594;";
-            break;
-        default:
-            dirEl.innerHTML = "&times;";
-    }
-    document.getElementById("timeago").innerHTML = timeago;
+    console.log("D");
 };
 
 // {{status:[{now:Number}],bgs:[{sgv:String,direction:String,datetime:Number,iob:String,battery:String}]}}
@@ -82,19 +40,32 @@ const displayData = (bg, bgdelta, dir, timeago) => {
  * @returns {{state:Number,json:{status:[{now:Number}],bgs:[{sgv:String,direction:String,datetime:Number,iob:String,battery:String,bgdelta:Number}]}}}
  */
 const fetchData = async() => {
-    return await fetch(store.get("nightscoutURL") + "pebble", {}).then(
-        async(res) => ({
-            state: res.status,
-            json: await res.json(),
-        })
+    try {
+        return await fetch(store.get("nightscoutURL") + "pebble", {}).then(
+            async(res) => ({
+                state: res.status,
+                json: await res.json(),
+            })
+        );
+    } catch (e) {
+        return { state: 0, json: null };
+    }
+};
+
+const init = () => {
+    if (store.get("nightscoutURL") == "") {
+        displayError("Keine Nightscout URL gesetzt");
+        openConfig();
+    } else {
+        readData();
+    }
+    setInterval(
+        readData,
+        (store.get("refreshInterval") ? store.get("refreshInterval") : 10) * 1000
     );
 };
 
-readData();
-setInterval(
-    readData,
-    (store.get("refreshInterval") ? store.get("refreshInterval") : 10) * 1000
-);
+init();
 
 // Right-click Menu
 const menu = new Menu();

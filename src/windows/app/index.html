@@ -6,11 +6,14 @@
 
 <body>
     <div class="dragger"></div>
-    <div class="data">
+    <div class="data d-none hidden" id="data-container">
         <p id="bg-container"><span id="bg">&times;</span> <span id="dir">&times;</span></p>
         <p id="delta-container"><span id="delta">&times;</span> mg/dl</p>
         <!-- <p><span id="dir">&times;</span></p> -->
         <p id="timeago-container">Vor <span id="timeago">&times;</span> Minute(n)</p>
+    </div>
+    <div id="message-container" hidden="true">
+        <p id="message"></p>
     </div>
     <script src="main.js"></script>
 </body>

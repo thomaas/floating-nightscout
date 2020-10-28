@@ -9,10 +9,13 @@ const createWindow = () => {
             enableRemoteModule: true,
         },
         frame: false,
-        resizable: true,
+        //resizable: false,
         width: 200,
         height: 140,
         opacity: 0.9,
+        fullscreenable: false,
+        skipTaskbar: true,
+        minimizable: false,
         alwaysOnTop: true,
         icon: "build/icon.png",
         title: "Floating Nightscout"
@@ -29,8 +32,8 @@ const openConfigurationWindow = () => {
         title: "Konfiguration",
         frame: false,
         parent: mainWindow,
-        width: 400,
-        height: 350,
+        width: 455,
+        height: 405,
         show: false,
     });
     configWindow.loadFile("src/windows/config/index.html");
