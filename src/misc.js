@@ -31,7 +31,6 @@ const openConfig = () => {
  * @param {String} colorClass color, given in css Class
  */
 const setProgressbar = (el, percent, animated, colorClass) => {
-
     el.style.width = percent.toString() + "%";
     el.classList.remove("bg-success");
     el.classList.remove("bg-danger");
@@ -42,7 +41,7 @@ const setProgressbar = (el, percent, animated, colorClass) => {
     } else {
         el.classList.remove("progress-bar-animated");
     }
-}
+};
 
 /**
  * Lädt Daten von Nightscout
@@ -51,15 +50,19 @@ const setProgressbar = (el, percent, animated, colorClass) => {
  */
 const fetchNightscout = async(url) => {
     try {
-        return await fetch(url + "pebble", {}).then(
-            async(res) => ({
-                state: res.status,
-                json: await res.json(),
-            })
-        );
+        return await fetch(url + "pebble", {}).then(async(res) => ({
+            state: res.status,
+            json: await res.json(),
+        }));
     } catch (e) {
         return { state: 0, json: null };
     }
 };
 
-module.exports = { minutes_ago, closeWindow, openConfig, setProgressbar, fetchNightscout };
+module.exports = {
+    minutes_ago,
+    closeWindow,
+    openConfig,
+    setProgressbar,
+    fetchNightscout,
+};

@@ -1,7 +1,7 @@
 {
     "name": "floating-nightscout",
     "version": "0.0.1",
-    "description": "Floating Nightscout for Windows",
+    "description": "Floating Nightscout for Windows and MacOS",
     "main": "main.js",
     "scripts": {
         "start": "electron .",

@@ -53,9 +53,9 @@ const displayData = (bg, bgdelta, dir, timeago) => {
  * @param {String} err_msg Die Errormessage
  */
 const displayError = (err_msg) => {
-    document.getElementById("data-container").setAttribute("hidden", "true")
+    document.getElementById("data-container").setAttribute("hidden", "true");
     document.getElementById("message-container").removeAttribute("hidden");
-    document.getElementById("message").innerText = err_msg
-}
+    document.getElementById("message").innerText = err_msg;
+};
 
-module.exports = { displayData, displayError }
+module.exports = { displayData, displayError };

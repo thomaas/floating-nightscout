@@ -18,8 +18,10 @@ const createWindow = () => {
         minimizable: false,
         alwaysOnTop: true,
         icon: "build/icon.png",
-        title: "Floating Nightscout"
+        title: "Floating Nightscout",
+        show: false,
     });
+    mainWindow.on("ready-to-show", mainWindow.show);
     mainWindow.loadFile("src/windows/app/index.html");
 };
 
