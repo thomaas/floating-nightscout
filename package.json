@@ -4,7 +4,9 @@
     "description": "Floating Nightscout for Windows",
     "main": "main.js",
     "scripts": {
-        "start": "electron ."
+        "start": "electron .",
+        "build-win": "electron-builder --win",
+        "build-mac": "electron-builder --mac"
     },
     "devDependencies": {
         "electron": "10.1.2",
@@ -21,5 +23,8 @@
         "win": {
             "target": "nsis"
         }
+    },
+    "dependencies": {
+        "electron-store": "^6.0.1"
     }
 }

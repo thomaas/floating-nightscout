@@ -17,7 +17,7 @@ const createWindow = () => {
         icon: "build/icon.png",
         title: "Floating Nightscout"
     });
-    mainWindow.loadFile("app/index.html");
+    mainWindow.loadFile("src/windows/app/index.html");
 };
 
 const openConfigurationWindow = () => {
@@ -33,7 +33,7 @@ const openConfigurationWindow = () => {
         height: 350,
         show: false,
     });
-    configWindow.loadFile("config/index.html");
+    configWindow.loadFile("src/windows/config/index.html");
     configWindow.on("ready-to-show", configWindow.show);
 };
 
