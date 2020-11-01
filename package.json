@@ -5,6 +5,7 @@
     "main": "main.js",
     "scripts": {
         "start": "electron .",
+        "icons": "electron-icon-builder --input=build/icon.png --output=build",
         "build-win": "electron-builder --win",
         "build-mac": "electron-builder --mac",
         "publish": "electron-builder"
@@ -19,13 +20,16 @@
         "appId": "org.toastbrot.floatingnightscout",
         "productName": "Floating Nightscout",
         "mac": {
-            "target": "dmg"
+            "target": "dmg",
+            "icon": "build/icons/mac/icon.icns"
         },
         "win": {
-            "target": "nsis"
+            "target": "nsis",
+            "icon": "build/icons/win/icon.ico"
         }
     },
     "dependencies": {
+        "electron-icon-builder": "^1.0.2",
         "electron-store": "^6.0.1"
     }
 }
