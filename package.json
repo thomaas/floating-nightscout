@@ -21,7 +21,12 @@
         "productName": "Floating Nightscout",
         "mac": {
             "target": "dmg",
-            "icon": "build/icons/mac/icon.icns"
+            "icon": "build/icons/mac/icon.icns",
+            "category": "public.app-category.medical"
+        },
+        "mas": {
+            "entitlements": "build/entitlements.mas.plist",
+            "entitlementsInherit": "build/entitlements.mas.inherit.plist"
         },
         "win": {
             "target": "nsis",
